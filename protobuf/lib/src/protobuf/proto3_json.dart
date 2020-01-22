@@ -178,7 +178,15 @@ void _mergeFromProto3Json(
         case PbFieldType._STRING_BIT:
           if (value is String) {
             return value;
+          } else if (value is double) {
+            // Handle malformed json by silently converting numbers to strings.
+            return value.toString();
+          } else if (value is int) {
+            return value.toInt().toString();
+          } else if (value is num) {
+            return value.toDouble().toString();
           }
+
           throw context.parseException('Expected String value', value);
         case PbFieldType._FLOAT_BIT:
         case PbFieldType._DOUBLE_BIT:
