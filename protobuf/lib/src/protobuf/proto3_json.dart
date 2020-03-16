@@ -356,7 +356,9 @@ void _mergeFromProto3Json(
           }
 
           if (_isMapField(fieldInfo.type)) {
-            if (value is Map) {
+            if (value == null) {
+              // `null` is accepted as the empty map {}.
+            } else if (value is Map) {
               MapFieldInfo mapFieldInfo = fieldInfo;
               Map fieldValues = fieldSet._ensureMapField(fieldInfo);
               value.forEach((subKey, subValue) {
